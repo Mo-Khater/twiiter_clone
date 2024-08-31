@@ -1,0 +1,26 @@
+extends base
+block content
+  body
+    .container
+      .row.justify-content-center
+        .col-md-4
+          .card.mt-5
+            .card-body
+              h3.text-center Register
+              form.registerform
+                .form-group.mb-3
+                  label(for="name") Name
+                  input#name.form-control(type="text" name="name" placeholder="Enter your name" required)
+                .form-group.mb-3
+                  label(for="email") Email
+                  input#email.form-control(type="email" name="email" placeholder="Enter your email" required)
+                .form-group.mb-3
+                  label(for="password") Password
+                  input#password.form-control(type="password" name="password" placeholder="Enter your password" required)
+                .form-group.mb-3
+                  label(for="confirmPassword") Confirm Password
+                  input#confirmPassword.form-control(type="password" name="confirmPassword" placeholder="Confirm your password" required)
+                .form-group.mb-3.text-center
+                  button.btn.btn-primary.btn-block(type="submit") Register
+                .form-group.mt-3.text-center
+                  a(href="/login") Already have an account? Login
