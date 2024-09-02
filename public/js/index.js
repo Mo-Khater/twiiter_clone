@@ -1,7 +1,8 @@
 import { login, signup } from "./auth";
 const loginform = document.querySelector(".loginform");
 const registerform = document.querySelector(".registerform");
-
+const textarea = document.getElementById("postTextarea");
+const button = document.getElementById("submitPostButton");
 if (loginform) {
   loginform.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -19,4 +20,15 @@ if (registerform) {
     const confirmPassword = document.getElementById("confirmPassword").value;
     signup(name, email, password, confirmPassword);
   });
+}
+
+
+if (textarea && button) {
+    textarea.addEventListener('input', () => {
+        if (textarea.value.trim() !== "") {
+            button.disabled = false;
+        } else {
+            button.disabled = true;
+        }
+    });
 }

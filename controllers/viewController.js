@@ -8,6 +8,10 @@ exports.register = (req, res, next) => {
     title: "register",
   });
 };
+
 exports.homePage = (req, res, next) => {
-  res.status(200).send("home");
+  res.status(200).render("home", {
+    pageTitle: "Home",
+    user: req.session.user,
+  });
 };

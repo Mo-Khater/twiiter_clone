@@ -11,7 +11,7 @@ export const login = async (email, password) => {
         password,
       },
     });
-    if (res.data.status === "succcess") {
+    if (res.data.status === "success") {
       showAlert("success", "Logged in successfully!");
       window.setTimeout(() => {
         location.assign("/");
@@ -33,7 +33,7 @@ export const signup = async (name, email, password, confirmpassword) => {
         confirmpassword,
       },
     });
-    if (res.data.status === "succcess") {
+    if (res.data.status === "success") {
       showAlert("success", "register successfully!");
       window.setTimeout(() => {
         location.assign("/login");

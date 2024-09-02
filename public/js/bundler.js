@@ -6112,7 +6112,7 @@ var login = exports.login = /*#__PURE__*/function () {
           });
         case 3:
           res = _context.sent;
-          if (res.data.status === "succcess") {
+          if (res.data.status === "success") {
             (0, _alert.showAlert)("success", "Logged in successfully!");
             window.setTimeout(function () {
               location.assign("/");
@@ -6154,7 +6154,7 @@ var signup = exports.signup = /*#__PURE__*/function () {
           });
         case 3:
           res = _context2.sent;
-          if (res.data.status === "succcess") {
+          if (res.data.status === "success") {
             (0, _alert.showAlert)("success", "register successfully!");
             window.setTimeout(function () {
               location.assign("/login");
@@ -6183,6 +6183,8 @@ var logout = exports.logout = function logout(email, password) {};
 var _auth = require("./auth");
 var loginform = document.querySelector(".loginform");
 var registerform = document.querySelector(".registerform");
+var textarea = document.getElementById("postTextarea");
+var button = document.getElementById("submitPostButton");
 if (loginform) {
   loginform.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -6199,6 +6201,15 @@ if (registerform) {
     var password = document.getElementById("password").value;
     var confirmPassword = document.getElementById("confirmPassword").value;
     (0, _auth.signup)(name, email, password, confirmPassword);
+  });
+}
+if (textarea && button) {
+  textarea.addEventListener('input', function () {
+    if (textarea.value.trim() !== "") {
+      button.disabled = false;
+    } else {
+      button.disabled = true;
+    }
   });
 }
 },{"./auth":"auth.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -6226,7 +6237,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61393" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61025" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
