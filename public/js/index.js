@@ -1,3 +1,4 @@
+import {createPost} from "./post";
 import { login, signup } from "./auth";
 const loginform = document.querySelector(".loginform");
 const registerform = document.querySelector(".registerform");
@@ -22,13 +23,19 @@ if (registerform) {
   });
 }
 
-
 if (textarea && button) {
-    textarea.addEventListener('input', () => {
-        if (textarea.value.trim() !== "") {
-            button.disabled = false;
-        } else {
-            button.disabled = true;
-        }
-    });
+  textarea.addEventListener("input", () => {
+    if (textarea.value.trim() !== "") {
+      button.disabled = false;
+    } else {
+      button.disabled = true;
+    }
+  });
+}
+
+if (button) {
+  button.addEventListener("click", () => {
+    const postContent = textarea.value;
+    createPost(postContent);
+  });
 }

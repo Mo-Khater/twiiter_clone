@@ -4,6 +4,7 @@ const path = require("path");
 const app = express();
 const viewRouter = require("./routes/viewRoute");
 const userRouter = require("./routes/userRoute");
+const postRouter = require("./routes/postRoute");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -36,13 +37,17 @@ const server = app.listen(port, () => {
   console.log(`App started on port ${port}`);
 });
 
-mongoose.connect(process.env.dbConnectionString).then(() => {
-  console.log("successful connected to data base");
-});
+mongoose
+  .connect(process.env.dbConnectionString)
+  .then(() => {
+    console.log("successful connected to data base");
+  })
+  .catch((err) => console.log(err));
 
 // Routes
 app.use("/", viewRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/posts", postRouter);
 
 // if any error occured
 app.use(globalError);
