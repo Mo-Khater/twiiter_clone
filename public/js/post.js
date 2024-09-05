@@ -10,9 +10,8 @@ export const createPost = async (postContent) => {
         postContent,
       },
     });
-    console.log(res);
     if (res.data.status == "success") {
-      const html = createPostHtml(res);
+      const html = createPostHtml(res.data.newpost);
       const postContainer = document.querySelector(".postsContainer");
       postContainer.insertAdjacentHTML("afterbegin", html);
       const textarea = document.getElementById("postTextarea");
@@ -25,9 +24,9 @@ export const createPost = async (postContent) => {
   }
 };
 
-function createPostHtml(postData) {
-  const user = postData.data.newpost.user;
-  const timestamp = postData.data.newpost.createdAt;
+export function createPostHtml(postData) {
+  const user = postData.user;
+  const timestamp = timeSince(postData.createdAt);
 
   return `<div class='post'>
 
@@ -42,7 +41,7 @@ function createPostHtml(postData) {
                             <span class='date'>${timestamp}</span>
                         </div>
                         <div class='postBody'>
-                            <span>${postData.data.newpost.content}</span>
+                            <span>${postData.content}</span>
                         </div>
                         <div class='postFooter'>
                             <div class='postButtonContainer'>
@@ -64,4 +63,35 @@ function createPostHtml(postData) {
                     </div>
                 </div>
             </div>`;
+}
+
+function timeSince(date) {
+  // Convert to Date object if it isn't already
+  const postDate = new Date(date);
+
+  var seconds = Math.floor((new Date() - postDate) / 1000);
+
+  var interval = seconds / 31536000;
+
+  if (interval > 1) {
+    return Math.floor(interval) + " years";
+  }
+  interval = seconds / 2592000;
+  if (interval > 1) {
+    return Math.floor(interval) + " months";
+  }
+  interval = seconds / 86400;
+  if (interval > 1) {
+    return Math.floor(interval) + " days";
+  }
+  interval = seconds / 3600;
+  if (interval > 1) {
+    return Math.floor(interval) + " hours";
+  }
+  interval = seconds / 60;
+  if (interval > 1) {
+    return Math.floor(interval) + " minutes";
+  }
+  if (Math.floor(seconds) < 30) return "Just now";
+  return Math.floor(seconds) + " seconds";
 }

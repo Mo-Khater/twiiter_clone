@@ -23,6 +23,13 @@ postSchema.post("save", function (doc, next) {
     .catch(next);
 });
 
+postSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'user',
+  });
+  next();
+});
+
 const Post = mongoose.model("Post", postSchema);
 
 module.exports = Post;

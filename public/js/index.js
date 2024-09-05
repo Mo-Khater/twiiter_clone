@@ -1,5 +1,6 @@
-import {createPost} from "./post";
+import { createPost } from "./post";
 import { login, signup } from "./auth";
+import { displayPosts } from "./homePosts";
 const loginform = document.querySelector(".loginform");
 const registerform = document.querySelector(".registerform");
 const textarea = document.getElementById("postTextarea");
@@ -38,4 +39,9 @@ if (button) {
     const postContent = textarea.value;
     createPost(postContent);
   });
+}
+
+const postsContainer = document.querySelector(".postsContainer");
+if (postsContainer) {
+  displayPosts();
 }

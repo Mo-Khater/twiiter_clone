@@ -3,6 +3,8 @@ const router = express.Router();
 const authController = require("../controllers/authController");
 const postController = require("../controllers/postController");
 
-router.route("/").post(authController.protect, postController.createPost);
+router.use(authController.protect)
+
+router.route("/").post(postController.createPost).get(postController.getPosts);
 
 module.exports = router;
