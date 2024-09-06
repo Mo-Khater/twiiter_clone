@@ -44,6 +44,11 @@ mongoose
   })
   .catch((err) => console.log(err));
 
+// app.use((req, res, next) => {
+//   console.log(req);
+//   next();
+// });
+
 // Routes
 app.use("/", viewRouter);
 app.use("/api/v1/users", userRouter);

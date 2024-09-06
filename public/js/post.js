@@ -27,8 +27,8 @@ export const createPost = async (postContent) => {
 export function createPostHtml(postData) {
   const user = postData.user;
   const timestamp = timeSince(postData.createdAt);
-
-  return `<div class='post'>
+  const isLikedButton = postData.likes.includes(user._id) ? "active" : "";
+  return `<div class='post' data-id='${postData._id}'>
 
                 <div class='mainContentContainer'>
                     <div class='userImageContainer'>
@@ -54,9 +54,10 @@ export function createPostHtml(postData) {
                                     <i class='fas fa-retweet'></i>
                                 </button>
                             </div>
-                            <div class='postButtonContainer'>
-                                <button>
+                            <div class='postButtonContainer red'>
+                                <button class='likedButton ${isLikedButton}'>
                                     <i class='far fa-heart'></i>
+                                    <span>${postData.likes.length || ""}</span>
                                 </button>
                             </div>
                         </div>

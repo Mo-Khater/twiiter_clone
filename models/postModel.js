@@ -10,6 +10,12 @@ const postSchema = mongoose.Schema(
       ref: "User",
     },
     binned: { type: Boolean, default: false },
+    likes: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   {
     timestamps: true,
@@ -25,7 +31,7 @@ postSchema.post("save", function (doc, next) {
 
 postSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'user',
+    path: "user",
   });
   next();
 });

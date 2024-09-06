@@ -33,6 +33,12 @@ const userSchema = mongoose.Schema(
       },
     },
     photo: { type: String, default: "/images/default.jpg" },
+    likes: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Post",
+      },
+    ],
   },
   { timestamps: true }
 );

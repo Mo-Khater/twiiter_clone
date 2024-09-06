@@ -25,3 +25,24 @@ exports.getPosts = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.updatePost = catchAsync(async (req, res, next) => {
+  const postId = req.params.id;
+  const isLiked =
+    req.session.user.likes && req.session.user.likes.includes(postId);
+
+  const option = isLiked ? "$pull" : "$addToSet";
+
+  const post = await Post.findByIdAndUpdate(
+    postId,
+    {
+      [option]: { likes: req.session.user._id },
+    },
+    { new: true }
+  );
+
+  res.status(200).json({
+    status: "success",
+    data: { post },
+  });
+});
