@@ -24,12 +24,69 @@ export const createPost = async (postContent) => {
   }
 };
 
+// handle like functionality
+export const handleClickLikeButton = async (postId) => {
+  try {
+    await axios({
+      method: "PUT",
+      url: `/api/v1/users/me`,
+      data: { id: postId, action: "like" },
+    });
+
+    const res = await axios({
+      method: "PUT",
+      url: `/api/v1/posts/${postId}/like`,
+    });
+
+    return res.data.data.post;
+  } catch (err) {
+    console.log(err);
+  }
+};
+// handle retweet functionality
+export const handleClickRetweetButton = async (postId) => {
+  try {
+    const res = await axios({
+      method: "POST",
+      url: `/api/v1/posts/${postId}/retweet`,
+    });
+
+    await axios({
+      method: "PUT",
+      url: `/api/v1/users/me`,
+      data: { id: res.data.data.post.retweetedPostId, action: "retweet" },
+    });
+
+    return res.data.data.post;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export function createPostHtml(postData) {
+  var isRetweet = postData.retweetedPost !== undefined;
+  console.log(postData);
+  var retweetedBy = isRetweet ? postData.user.name : null;
+  postData = isRetweet ? postData.retweetedPost : postData;
+
+  var retweetText = "";
+  if (isRetweet) {
+    retweetText = `<span>
+                      <i class='fas fa-retweet'></i>
+                      Retweeted by <a href='/profile/${retweetedBy}'>@${retweetedBy}</a>    
+                  </span>`;
+  }
+
   const user = postData.user;
   const timestamp = timeSince(postData.createdAt);
   const isLikedButton = postData.likes.includes(user._id) ? "active" : "";
+  const isRetweetButton = postData.retweetUsers.includes(user._id)
+    ? "active"
+    : "";
   return `<div class='post' data-id='${postData._id}'>
-
+                  <div class='postActionContainer'>
+                    ${retweetText}
+                </div>
                 <div class='mainContentContainer'>
                     <div class='userImageContainer'>
                         <img src='${user.photo}'>
@@ -49,9 +106,10 @@ export function createPostHtml(postData) {
                                     <i class='far fa-comment'></i>
                                 </button>
                             </div>
-                            <div class='postButtonContainer'>
-                                <button>
+                            <div class='postButtonContainer green'>
+                                <button class='retweetButton ${isRetweetButton}'>
                                     <i class='fas fa-retweet'></i>
+                                    <span>${postData.retweetUsers.length || ""}</span>
                                 </button>
                             </div>
                             <div class='postButtonContainer red'>

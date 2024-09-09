@@ -16,6 +16,16 @@ const postSchema = mongoose.Schema(
         ref: "User",
       },
     ],
+    retweetUsers: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+      },
+    ],
+    retweetedPost: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Post",
+    },
   },
   {
     timestamps: true,
@@ -27,6 +37,20 @@ postSchema.post("save", function (doc, next) {
     .populate({ path: "user" })
     .then(() => next())
     .catch(next);
+});
+
+postSchema.post("save", function (doc, next) {
+  doc
+    .populate({ path: "retweetedPost" })
+    .then(() => next())
+    .catch(next);
+});
+
+postSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "retweetedPost",
+  });
+  next();
 });
 
 postSchema.pre(/^find/, function (next) {

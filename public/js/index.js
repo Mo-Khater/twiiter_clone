@@ -1,7 +1,8 @@
 import { createPost } from "./post";
 import { login, signup } from "./auth";
 import { displayPosts } from "./homePosts";
-import { handleClickLikeButton } from "./likeButton";
+import { handleClickLikeButton } from "./post";
+import { handleClickRetweetButton } from "./post";
 const loginform = document.querySelector(".loginform");
 const registerform = document.querySelector(".registerform");
 const textarea = document.getElementById("postTextarea");
@@ -69,6 +70,32 @@ document.addEventListener("click", async function (event) {
         event.target.classList.remove("active");
       }
     }
+  }
+});
+
+// retweet functionality
+
+document.addEventListener("click", async function (event) {
+  // Check if the clicked element has the class 'likeButton'
+  if (event.target.classList.contains("retweetButton")) {
+    const postId = getPostId(event.target);
+    const post = await handleClickRetweetButton(postId);
+    const spanElement = event.target.querySelector("span");
+    if (spanElement) {
+      spanElement.textContent = post.retweetUsers.length || "";
+    }
+    const mainSectionContainer = document.querySelector(
+      ".mainSectionContainer"
+    );
+    const userId = mainSectionContainer.dataset.userid;
+    if (userId) {
+      if (post.retweetUsers.includes(userId)) {
+        event.target.classList.add("active");
+      } else {
+        event.target.classList.remove("active");
+      }
+    }
+    console.log(post);
   }
 });
 
